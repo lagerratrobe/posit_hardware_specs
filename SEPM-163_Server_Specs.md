@@ -141,8 +141,31 @@ Posit Connect is a server based publishing platform which supports a wide variet
 
 Essentially, Connect functions as both a Web server and an Application server.  This means that Connect's hardware specifications will depend on the number and type of applications, documents, and analysis running on the server.  Additionally, the number of concurrent users and the runtime settings of the content they are viewing (where applicable) will have an impact on performance.
 
-The key factors that affect Connect's performance are:
+Therefore, the key factors that affect Connect's performance are:
 
 1. __The number and types of content running on the server.__
 2. __The number of concurrent users on the server.__
 3. __The runtime settings of the content__
+
+#### __Connect CPU Requirements__
+
+Connect's CPU utilization will vary based on the type of content that is being viewed.  For example, static content such as pre-rendered html from RMarkdown of Jupyter notebooks will require very little CPU when it it being viewed on the server.  These same documents when published with source code will need CPU processing availability when they are "refreshed" or scheduled for re-execution.  Then, the R (or Python) code in the document will be executed in place on the Connect server.  APIs will similarly need processing power available when a request is made through them.  Finally, dashboards such as Shiny or Streamlit content will need CPU access while they are open in a user's browser.
+
+Roughly speaking, a CPU core will be needed for each of the following tasks occurring concurrently:
+
+* execution of R and Python code in a Notebook
+* request being made to a specific content API
+* specific interactive Dashboard utilization
+* other processing tasks related to running the Connect server
+
+The key point is that these are all running concurrently, generally because multiple users are logged in and all doing different things.  This is why a dev server used for testing can be as small as 2 cores with a small amount of RAM.  Generally only a single user is running things one-at-a-time on a Dev server and multiple cores aren't needed.
+
+* __Connect CPU Rule-of-Thumb:__ (1 CPU per concurrent processing task) __+__ (1 CPU for background tasks)
+
+
+
+
+#### __Connect RAM Requirements__
+
+#### __Connect Disk Requirements__
+
