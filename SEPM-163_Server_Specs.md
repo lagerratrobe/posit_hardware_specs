@@ -1,5 +1,7 @@
 # [SEPM-163](https://positpbc.atlassian.net/browse/SEPM-163): Update the min hardware spec requirements page to be more helpful
 
+Verified: Jan 24, 2024
+
 (Probably should look at getting this added somwhere near, or under - https://solutions.posit.co/architecting/)
 
 ### Background
