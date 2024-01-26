@@ -151,23 +151,30 @@ Therefore, the key factors that affect Connect's performance are:
 
 #### __Connect CPU Requirements__
 
-Connect's CPU utilization will vary based on the type of content that is being viewed.  For example, static content such as pre-rendered html from RMarkdown of Jupyter notebooks will require very little CPU when it it being viewed on the server.  These same documents when published with source code will need CPU processing availability when they are "refreshed" or scheduled for re-execution.  Then, the R (or Python) code in the document will be executed in place on the Connect server.  APIs will similarly need processing power available when a request is made through them.  Finally, dashboards such as Shiny or Streamlit content will need CPU access while they are open in a user's browser.
+Connect's CPU utilization will vary based on the type of content that is being viewed.  For example, static content such as RMarkdown of Jupyter notebooks will require very little CPU if it is pre-rendered before being published.  The same documents when published with source code will need additional computing resources when they execute in place (either when published or refreshed).  At that time,  R or Python code in the document will be execute processes on the Connect server.  APIs similarly need processing power available when a request is made through them.  And finally, dashboards such as Shiny or Streamlit require CPU access while they are open during an interactive session.  (NOTE: interactive content will continue to consume resources if the [timeout settings](https://docs.posit.co/connect/user/content-settings/#timeout-configurations) are not properly set as well.)
 
-Roughly speaking, a CPU core will be needed for each of the following tasks occurring concurrently:
+In summary then, CPU cores will be needed for each of the following tasks:
 
-* execution of R and Python code in a Notebook
-* request being made to a specific content API
-* specific interactive Dashboard utilization
+* execution of R and Python code contained in a Notebook, RMarkdown or Quarto document
+* requests made to a hosted API
+* interactive Dashboard utilization
 * other processing tasks related to running the Connect server
 
-The key point is that these are all running concurrently, generally because multiple users are logged in and all doing different things.  This is why a dev server used for testing can be as small as 2 cores with a small amount of RAM.  Generally only a single user is running things one-at-a-time on a Dev server and multiple cores aren't needed.
+The key point to think about is, "what is running concurrently?".  Although multiple users can be logged into the server doing different things, the number of users by itself may have little impact on the Connect server's performance.  This is why a Development server used for testing can be as small as 2 cores with a small amount of RAM, since only a single user is running things one-at-a-time, in general.
 
 * __Connect CPU Rule-of-Thumb:__ (1 CPU per concurrent processing task) __+__ (1 CPU for background tasks)
 
+--------------------------
 
+_PARALELLIZATION CAVEAT:_ 
 
+_Connect is able to run almost ANY R or Python code that is published to it.  This includes parallelized code that uses multiple cores.  Executing code like this can quickly reduce the amount of available CPU available for other tasks on the machine.  A common example of this type of multi-CPU task would be training an ML model.  If you plan to do this sort of thing on your Connect server, we strongly recommend that you implement either `cgroups` to limit the resources that Connect can use, or some sort of horizontal scaling, either via High Availablily or Off-Host-Execution configurations.  Additional information about scaling and how to plan for it can be found [on our Solutions site](https://solutions.posit.co/admin-training/courses/connect/08_scaling.html#connect-architectures)._
+
+-----------------------------
 
 #### __Connect RAM Requirements__
+
+
 
 #### __Connect Disk Requirements__
 
