@@ -215,8 +215,3 @@ Unlike other Posit products, Posit Package Manager focuses on storing and organi
 
 The Minimum configuration can support a single small team that is working primarily in R or Python with one configured Package Manager repository.  The Recommended configuration can support multiple repositories and can be used by a team or even multiple departments. See the admin guide for details on storage requirements, as they may vary in air-gapped environments or in cases where multiple operating systems and R versions are required.
 
-#### __Package Manager CPU Requirements__
-
-#### __Package Manager RAM Requirements__
-
-#### __Package Manager Disk Requirements__
