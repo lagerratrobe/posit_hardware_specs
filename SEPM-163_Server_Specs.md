@@ -172,9 +172,51 @@ _Connect is able to run almost ANY R or Python code that is published to it.  Th
 
 -----------------------------
 
-#### __Connect RAM Requirements__
+#### Posit Connect - RAM Requirements
+
+Connect's ability to act as both a Web and Application server means that multiple users can be viewing/using very different content at the same time.  This flexibility also means resource utilization on the server can be quite varied depending on the type of content and the number of concurrent users on the system at one time.  In some ways this is very similar to Workbench and the best way to determine RAM requirements is to profile some of the projects that the team is working on in RStudio.  That being said, a rough guideline for sizing RAM is the following:
+
+* __Connect RAM rule-of-thumb:__ (250MB to 2GB RAM) __X__ number of concurrently open applications
+
+As always, the best way to determine how much RAM your Connect server is to profile the applications that you intend to deploy there.
+
+-----------------------------
+
+_NOTE: It's important to remember that RAM utilization for Connect is most directly tied to data being processed and loaded in the application.  So a static Rmarkdown document will tend to consume much less RAM than a Shiny application which is loading data into RAM for processing while being run._
+
+----------------------------
+
+#### Posit Connect - Disk Requirements
+
+Connect uses disk space to host the built content caches of applications and reports that have been deployed to it, as well as for the on-disk SQLite database and other system related information.  Thus, disk utilization can vary quite a bit depending on the number of deployed applications and the amount of data that accompanies each application.  Put another way, if you attach a 500MB CSV as part of your report deployment, Connect will need space on disk to store that data.  Additionally, if you publish updates regularly to a piece of content, Connect will retain the old versions as well as the new ones.  The amount of retention is configurable and discussed a bit in this [Support article](https://support.posit.co/hc/en-us/articles/8973648011543-Posit-Connect-Reclaim-Disk-Space).
+
+In summary, the main utilization of disk space on Connect is for:
+
+* Built content caches (both current and historic)
+* Installed code for the R, Python and Quarto implementations used by content
+
+Given the variability in what content, and how often it is published, it is difficult to predict a minimum disk size that is adequate for all users.  For that reason, we recommend no less than 100GB of disk on the Connect server.
+
+* __Connect Disk rule-of-thumb:__ 100GB, minimum.
+
+---------------------------------------
+
+_NOTE: It should be assumed that as users come and go through the organization, they will publish content that will need to persist on the server after they have left.  For that reason it is best to allocate slightly more disk than is needed initially, to allow for growth of the cached content over time._
+
+----------------------------------------
 
 
+### Package Manager Performance Factors
 
-#### __Connect Disk Requirements__
+Unlike other Posit products, Posit Package Manager focuses on storing and organizing packages not running computations. For that reason, disk space is the most important consideration for Posit Package Manager as opposed to CPU and RAM.  Some good initial resource specs might be:
 
+* Minimum (2 core / 2G of RAM / 200 GB disk).
+* Recommended (2 core, 4 GB of RAM, 500 GB disk). 
+
+The Minimum configuration can support a single small team that is working primarily in R or Python with one configured Package Manager repository.  The Recommended configuration can support multiple repositories and can be used by a team or even multiple departments. See the admin guide for details on storage requirements, as they may vary in air-gapped environments or in cases where multiple operating systems and R versions are required.
+
+#### __Package Manager CPU Requirements__
+
+#### __Package Manager RAM Requirements__
+
+#### __Package Manager Disk Requirements__
